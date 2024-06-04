@@ -1,0 +1,17 @@
+{
+  "data":
+  [
+    {
+      "name": "Delta Airsoft Events",
+      "address": "Taxandriaweg 2, 5141 PA Waalwijk",
+      "LatLng": {"latitude":51.69085277187169, "longitude":5.057021152724582},
+      "description": "Indoor CQB Airsoft Location"
+    },
+    {
+      "name": "NABV Nationaal Airsoft Center",
+      "address": "Tielerweg 9, 4191 NE Geldermalsen",
+      "LatLng": {"latitude": 51.88173503246226, "longtitude":5.301747550883823},
+      "description": "NABV officiele Airsoft Centrum Met Schietbanen. Gratis voor NABV Leden"
+    }
+  ]
+}
