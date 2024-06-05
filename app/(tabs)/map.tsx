@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {StyleSheet, Image, Platform, View, Text, SafeAreaView} from 'react-native';
 import {styled} from "nativewind";
+import MapView from "react-native-maps";
 
 export default function TabTwoScreen() {
 
@@ -9,9 +10,7 @@ export default function TabTwoScreen() {
 
   return (
       <SafeAreaView>
-        <StyledView className="flex flex-col">
-          <StyledText className="text-gold text-xl">Hello</StyledText>
-        </StyledView>
+        <MapView />
       </SafeAreaView>
   );
 }
