@@ -7,7 +7,6 @@ import {ThemedView} from '@/components/ThemedView';
 import {Text, View} from 'react-native';
 import {styled} from "nativewind";
 import {PropsWithChildren, useEffect, useState} from "react";
-import {element} from "prop-types";
 
 const StyledText = styled(Text);
 const StyledView = styled(View);
@@ -51,7 +50,7 @@ export default function HomeScreen() {
     const [Locations, SetLocations] = useState({set: false, error: false, data: []});
     useEffect(() => {
         (async () => {
-            await fetch("https://stud.hosted.hr.nl/1062604/AirsoftLocations.json")
+            await fetch("https://stud.hosted.hr.nl/1062604/AirsoftLocations2.json")
                 .then(res => res.json())
                 .then(json => {
                     SetLocations({set: true, error: false, data: json.data})
