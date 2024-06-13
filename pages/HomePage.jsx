@@ -23,7 +23,7 @@ export function HomePage({ navigation, Locations}) {
             </View>
 
             <View>
-                <View className="bg-gray-300 dark:bg-cblack flex flex-col items-center">
+                <View className="bg-white dark:bg-cblack flex flex-col items-center">
                     {Locations.data.map(loco => (
                         <Pressable
                             key={loco.name}
@@ -33,7 +33,7 @@ export function HomePage({ navigation, Locations}) {
                                 })
                             }}>
                             <View
-                                className="p-2 flex flex-col w-11/12 mb-3 rounded-2xl bg-white dark:bg-black pb-3 pt-3 pl-1 pr-1 items-center"
+                                className="p-2 flex flex-col w-11/12 mb-3 rounded-2xl bg-gray-300 dark:bg-black pb-3 pt-3 pl-1 pr-1 items-center"
                             >
                                 <Text className="text-2xl font-bold font-cinzel uppercase text-black dark:text-white text-center">
                                     {loco.name}
