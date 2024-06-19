@@ -24,6 +24,7 @@ export function HomePage({ navigation, Locations}) {
 
             <View>
                 <View className="bg-white dark:bg-cblack flex flex-col items-center">
+                    {/*Map naar knop Elements*/}
                     {Locations.data.map(loco => (
                         <Pressable
                             key={loco.name}

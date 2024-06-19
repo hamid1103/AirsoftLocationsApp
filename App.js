@@ -9,22 +9,42 @@ import {useEffect, useState} from "react";
 import colors from "tailwindcss/colors";
 import {SettingsPage} from "./pages/SettingsPage";
 import CreateBottomTabNavigator from "@react-navigation/bottom-tabs/src/navigators/createBottomTabNavigator";
-//import {registerRootComponent} from "expo";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//registerRootComponent(App)
 const Stack = createNativeStackNavigator();
 const Tab = CreateBottomTabNavigator();
 
 export default function App() {
     const {colorScheme, setColorScheme} = useColorScheme();
+    const [initTheme, setInitTheme] = useState(false);
+    useEffect(()=>{
+        (async ()=>{
+            const themeval = await AsyncStorage.getItem('theme')
+            setColorScheme(themeval)
+            console.log("Fetched theme: " + themeval);
+        })()
+        setInitTheme(true)
+    }, [])
+
     useEffect(() => {
-        setColorScheme(colorScheme)
-    }, [colorScheme])
+        console.log("Switched theme to " + colorScheme + ". with initTheme bool: " + initTheme)
+        if(initTheme === true)
+        {
+            setColorScheme(colorScheme);
+            (async ()=>{
+                await AsyncStorage.setItem('theme', colorScheme);
+                console.log("saved theme: " + colorScheme)
+            })();
+        }
+    }, [colorScheme, initTheme])
+
+    //Fonts moeten eerst geregistreerd zijn in expo voordat ze werken in nativewind(tailwind)
     const [fontsLoaded, fontError] = useFonts({
         'Inter-Black': require('./assets/fonts/Inter-Black.ttf'),
         'Cinzel-Black': require('./assets/fonts/Cinzel-Black.ttf')
     });
 
+    //Locations zit in app zodat ik ze niet steeds hoef te fetchen per pagina.
     const [Locations, SetLocations] = useState({set: false, error: false, data: []});
     useEffect(() => {
         (async () => {
@@ -50,6 +70,9 @@ export default function App() {
                                      fontFamily: "Cinzel-Black",
                                      color: colorScheme === 'dark' ? colors.white : colors.black
                                  },
+                                 tabBarStyle: {
+                                     backgroundColor: colorScheme === 'dark' ? '#1D1D1D' : colors.white
+                                 }
                              }}>
                 <Stack.Screen name="Home">
                     {(props) => <HomePage {...props} Locations={Locations}/>}
@@ -58,6 +81,7 @@ export default function App() {
                     {props => <Map {...props} Locations={Locations}></Map>}
                 </Stack.Screen>
                 <Stack.Screen name="Settings">
+                    {/*Geef Color State function door om hem in settings te veranderen*/}
                     {props => <SettingsPage {...props} colorScheme={colorScheme} setColorScheme={setColorScheme}></SettingsPage>}
                 </Stack.Screen>
             </Tab.Navigator>

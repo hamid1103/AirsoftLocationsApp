@@ -29,6 +29,12 @@
           "./assets/fonts/Inter-Black.ttf",
           "./assets/fonts/Cinzel-Black.ttf"
         ]}
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
       ]
     ]
   }

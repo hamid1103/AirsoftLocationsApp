@@ -1,13 +1,15 @@
-import {StyleSheet, Image, Platform, View, Text, SafeAreaView} from 'react-native';
+import {StyleSheet, Image, Platform, View, Text, SafeAreaView, Alert} from 'react-native';
 import {styled} from "nativewind";
 import MapView, {Marker} from "react-native-maps";
 import {useEffect, useState} from "react";
+import * as Location from "expo-location"
 
 export default function Map({route, navigation, Locations}) {
     console.log(route)
     let LocLatLng = null
-    if(typeof route.params != "undefined")
-    {
+
+    //Als je hier komt vanaf de navigator inplaats van een knop is de content van route.params undefined.
+    if (typeof route.params != "undefined") {
         LocLatLng = route.params.LocLatLng
     }
 
@@ -26,6 +28,36 @@ export default function Map({route, navigation, Locations}) {
     const Div = styled(View)
     const StyledText = styled(Text)
     const StyledMapView = styled(MapView)
+    const [locPerms, setLocPerms] = useState(false);
+    const [currentLocation, setCurrentLocation] = useState(null)
+
+    useEffect(() => {
+        (async () => {
+            let {status} = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                Alert.alert("Location Permission", "We need to use your location to show your position on the map.", [
+                    {
+                        text: 'Change Settings', onPress: () => {
+                            LocLatLng ? navigation.navigate('Map', {
+                                LocLatLng: LocLatLng
+                            }) : navigation.navigate('Map')
+                        }
+                    },
+                    {
+                        text:"Don't show me then",
+                        onPress: ()=>{
+                            setLocPerms(false)
+                        }
+                    }
+                ])
+                return;
+            }
+            let loco = await Location.getCurrentPositionAsync()
+            console.log(loco)
+            setCurrentLocation(loco)
+            setLocPerms(true)
+        })();
+    }, [])
 
     return (
         <SafeAreaView>
@@ -35,7 +67,11 @@ export default function Map({route, navigation, Locations}) {
             <Div className="h-[95%] w-full bg-white dark:bg-cblack">
                 <StyledMapView
                     className="w-full h-full"
-                    initialRegion={initialRegion}
+                    initialRegion={locPerms ? {longitude: currentLocation.coords.longitude,
+                    latitude: currentLocation.coords.latitude,
+                    longitudeDelta: 0.0421,
+                    latitudeDelta: 0.0922} : initialRegion}
+                    showsUserLocation={locPerms}
                 >
                     {Locations.data.map((loco, index) => (
                         <Marker
