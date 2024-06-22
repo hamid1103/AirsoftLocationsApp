@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AirsoftLocationsApp",
-    "slug": "AirsoftLocationsApp",
+    "name": "Airsoft DB",
+    "slug": "AirsoftDB",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,7 +12,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "This app uses face id to determine whether the user can save likes locally on the device."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -34,6 +37,12 @@
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
         }
       ]
     ]

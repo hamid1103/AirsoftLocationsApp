@@ -7,6 +7,8 @@ import * as Location from "expo-location"
 export default function Map({route, navigation, Locations}) {
     console.log(route)
     let LocLatLng = null
+    const [locPerms, setLocPerms] = useState(false);
+    const [currentLocation, setCurrentLocation] = useState(null)
 
     //Als je hier komt vanaf de navigator inplaats van een knop is de content van route.params undefined.
     if (typeof route.params != "undefined") {
@@ -26,10 +28,8 @@ export default function Map({route, navigation, Locations}) {
             longitudeDelta: 0.0421,
         })
     const Div = styled(View)
-    const StyledText = styled(Text)
     const StyledMapView = styled(MapView)
-    const [locPerms, setLocPerms] = useState(false);
-    const [currentLocation, setCurrentLocation] = useState(null)
+
 
     useEffect(() => {
         (async () => {
@@ -44,7 +44,7 @@ export default function Map({route, navigation, Locations}) {
                         }
                     },
                     {
-                        text:"Don't show me then",
+                        text:"Don't show my location",
                         onPress: ()=>{
                             setLocPerms(false)
                         }
@@ -65,9 +65,10 @@ export default function Map({route, navigation, Locations}) {
 
             </Div>
             <Div className="h-[95%] w-full bg-white dark:bg-cblack">
+                {/*Als we locatie permission hebben, gebruik huidige locatie. anders naar initial region*/}
                 <StyledMapView
                     className="w-full h-full"
-                    initialRegion={locPerms ? {longitude: currentLocation.coords.longitude,
+                    initialRegion={typeof route.params != "undefined"? initialRegion : locPerms ?  {longitude: currentLocation.coords.longitude,
                     latitude: currentLocation.coords.latitude,
                     longitudeDelta: 0.0421,
                     latitudeDelta: 0.0922} : initialRegion}

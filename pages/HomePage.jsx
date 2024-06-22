@@ -1,8 +1,9 @@
 import {styled} from "nativewind";
 import {Image, View, Text, SafeAreaView, ScrollView, Button, Touchable, Pressable} from "react-native";
 import {useEffect, useState} from "react";
+import {LocationListButton} from "../components/LocationListButton";
 
-export function HomePage({ navigation, Locations}) {
+export function HomePage({ navigation, Locations, likes, setLikes}) {
     if (!Locations.set) {
         return (<Text>
             Data not Loaded
@@ -18,35 +19,14 @@ export function HomePage({ navigation, Locations}) {
             </View>
 
             <View className="flex items-center mb-8">
-                <Text className="text-gold font-bold text-3xl text-center font-cinzel">Airsoft Locaties in
-                    Nederland!</Text>
+                <Text className="text-gold font-bold text-3xl text-center font-cinzel uppercase">Airsoft DB</Text>
             </View>
 
             <View>
                 <View className="bg-white dark:bg-cblack flex flex-col items-center">
                     {/*Map naar knop Elements*/}
                     {Locations.data.map(loco => (
-                        <Pressable
-                            key={loco.name}
-                            onPress={()=>{
-                                navigation.navigate('Map', {
-                                    LocLatLng: loco.LatLng
-                                })
-                            }}>
-                            <View
-                                className="p-2 flex flex-col w-11/12 mb-3 rounded-2xl bg-gray-300 dark:bg-black pb-3 pt-3 pl-1 pr-1 items-center"
-                            >
-                                <Text className="text-2xl font-bold font-cinzel uppercase text-black dark:text-white text-center">
-                                    {loco.name}
-                                </Text>
-                                <Text className="text-lg font-bold font-inter text-gray-800 dark:text-gray-400">
-                                    {loco.description}
-                                </Text>
-                                <Text className="text-lg font-bold font-inter text-gray-800 dark:text-gray-400 underline">
-                                    {loco.address}
-                                </Text>
-                            </View>
-                        </Pressable>
+                        <LocationListButton key={loco.name} loco={loco} navigation={navigation} setLikes={setLikes} likes={likes}></LocationListButton>
                     ))}
                 </View>
             </View>
